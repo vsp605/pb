@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .payment-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #d9534f;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .btn {
+            background-color: #d9534f;
+            color: #fff;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            display: none;
+            color: green;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Parking Payment</h2>
+        <div class="form-group">
+            <label for="plotNo">Plot No:</label>
+            <input type="text" id="plotNo" placeholder="Enter Plot Number">
+        </div>
+
+        <div class="form-group">
+            <label for="vehicleNo">Vehicle No:</label>
+            <input type="text" id="vehicleNo" placeholder="Enter Vehicle Number">
+        </div>
+
+        <div class="form-group">
+            <label for="vehicleType">Vehicle Type:</label>
+            <select id="vehicleType">
+                <option value="">Select Vehicle Type</option>
+                <option value="2wheeler">2-Wheeler</option>
+                <option value="4wheeler">4-Wheeler</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="timeSlot">Time Slot:</label>
+            <select id="timeSlot">
+                <option value="">Select Time Slot</option>
+                <option value="4am-7am">4am-7am</option>
+                <option value="11am-1pm">11am-1pm</option>
+                <option value="2.30pm-5.30pm">2.30pm-5.30pm</option>
+                <option value="6pm-9pm">6pm-9pm</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" placeholder="Amount" readonly>
+        </div>
+        <div class="form-group">
+            <label>Payment Type:</label>
+            <div class="payment-options">
+                <label class="payment-option">
+                    <input type="radio" name="paymentType" value="Paytm"> Paytm
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="paymentType" value="PhonePe"> PhonePe
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="paymentType" value="GPay"> GPay
+                </label>
+            </div>
+        </div>
+        
+
+        <button class="btn" id="doneButton" disabled onclick="showSuccessMessage()">Done</button>
+
+        <p class="success-message" id="successMessage">Payment Successful!</p>
+    </div>
+
+    <script>
+        const plotNoInput = document.getElementById('plotNo');
+        const vehicleNoInput = document.getElementById('vehicleNo');
+        const vehicleTypeInput = document.getElementById('vehicleType');
+        const timeSlotInput = document.getElementById('timeSlot');
+        const amountInput = document.getElementById('amount');
+        const doneButton = document.getElementById('doneButton');
+        const successMessage = document.getElementById('successMessage');
+        const paymentOptions = document.querySelectorAll('input[name="paymentType"]');
+paymentOptions.forEach(option => option.addEventListener('change', checkFormCompletion));
+
+
+        // Pricing rules for 2-wheelers and 4-wheelers based on time slots
+        const pricing = {
+            '2wheeler': {
+                '4am-7am': 30,
+                '11am-1pm': 20,
+                '2.30pm-5.30pm': 20,
+                '6pm-9pm': 25
+            },
+            '4wheeler': {
+                '4am-7am': 40,
+                '11am-1pm': 25,
+                '2.30pm-5.30pm': 25,
+                '6pm-9pm': 50
+            }
+        };
+
+        // Enable Done button when all fields are filled
+        function checkFormCompletion() {
+            const isFormComplete = plotNoInput.value && vehicleNoInput.value && vehicleTypeInput.value && timeSlotInput.value && amountInput.value;
+            doneButton.disabled = !isFormComplete;
+        }
+
+        // Calculate the payment amount based on the time slot and vehicle type
+        function calculateAmount() {
+            const vehicleType = vehicleTypeInput.value;
+            const timeSlot = timeSlotInput.value;
+
+            if (vehicleType && timeSlot) {
+                const amount = pricing[vehicleType][timeSlot] || 0;
+                amountInput.value = amount;
+            } else {
+                amountInput.value = '';
+            }
+
+            checkFormCompletion();
+        }
+
+        // Event listeners
+        plotNoInput.addEventListener('input', checkFormCompletion);
+        vehicleNoInput.addEventListener('input', checkFormCompletion);
+        vehicleTypeInput.addEventListener('change', calculateAmount);
+        timeSlotInput.addEventListener('change', calculateAmount);
+
+        // Show success message upon clicking Done
+        function showSuccessMessage() {
+            successMessage.style.display = 'block';
+            doneButton.disabled = true;
+        }
+    </script>
+</body>
+</html>

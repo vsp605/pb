@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Management</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        main {
+            padding: 20px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .parking-area {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .parking-area h3 {
+            margin-bottom: 5px;
+        }
+        .parking-area span {
+            display: inline-block;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .parking-area a {
+            text-decoration: none;
+            color: #5b47cc;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h2>Area-wise Parking Spaces</h2>
+        <div class="grid-container">
+            <div class="parking-area">
+                <h3>BAGALKOT</h3>
+                <span class="region"><a href="pricing1.html">Price List</a></span>
+                <br>
+                <a href="slot.html">View parking spaces in Hanuman Temple BGK</a>
+            </div>
+            <div class="parking-area">
+                <h3>CHANDAN THEATER</h3>
+                <span class="region"><a href="pricing2.html">Price List</a></span>
+                <br>
+                <a href="slot2.html">View parking spaces in Sector 25 Nava Nagar BGK</a>
+            </div>
+            <div class="parking-area">
+                <h3>NAVANAGAR</h3>
+                <span class="region"><a href="pricing.html">Price List</a></span>
+                <br>
+                <a href="slot1.html">View parking spaces in near Nava Nagar Bustand Road</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
